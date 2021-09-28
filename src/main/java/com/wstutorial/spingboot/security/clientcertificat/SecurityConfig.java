@@ -23,6 +23,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,20 +38,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/protected").hasRole("USER")
-                .antMatchers("/admin").hasRole("ADMIN")
+        System.out.println("wwwww java version " + System.getProperty("java.version"));
+super.authenticationManager() ;
+http.authorizeRequests()
+                .antMatchers("/auth").permitAll()
+               // .antMatchers("/protected").hasRole("USER")
+               // .antMatchers("/admin").hasRole("ADMIN")
                 .and().x509()
+
                 //.subjectPrincipalRegex("CN=(.*?),")
                 .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+
                 .userDetailsService(userDetailsService());
+
+        http.addFilterBefore(new CustomFilter(), X509AuthenticationFilter.class);
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
+        return username -> {
+            User user = null ;
+            if(username.equals("testuser")) {
+                user = new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_NONE"));
+                return user;
+            }else {
+                throw new UsernameNotFoundException("User:" + username + " not found");
+            }
+        };
+    }
+    /*
+    @Bean
+    public UserDetailsService userDetailsService() {
         return (UserDetailsService) username -> {
-            if (username.equals("testuser")) {
+            if (username.contains("testuser")) {
                 return new User(username, "",
                         AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
             } else if (username.equals("testsupervisor")) {
@@ -60,12 +81,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
+    */
 
     public static void main(String[] ar) {
         primaryAuth();
     }
     private static void primaryAuth() {
-        System.out.println("wwwww 111");
+
         String postEndpoint = "http://localhost:8088/api/authenticate";
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(postEndpoint);
@@ -78,65 +100,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         System.out.println("Executing request " + httpPost.getRequestLine());
 
-    HttpResponse response = httpclient.execute(httpPost);
-    System.out.println("wwwdw done");
+        HttpResponse response = httpclient.execute(httpPost);
+        System.out.println("wwwdw done");
 
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader((response.getEntity().getContent())));
-
-
-            //Throw runtime exception if status code isn't 200
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatusLine().getStatusCode());
-            }
-
-
-            //Create the StringBuffer object and store the response into it.
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                System.out.println("Response : \n"+result.append(line));
-            }
-
-
-            //Lets validate if a text 'employee_salary' is present in the response
-            System.out.println("Does Reponse contains 'employee_salary'? :" + result.toString().contains("employee_salary"));
-
-        }catch (Exception e) {
-    e.printStackTrace();
-}
-        /*
-        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-
-            List<NameValuePair> form = new ArrayList<>();
-            form.add(new BasicNameValuePair("foo", "bar"));
-            form.add(new BasicNameValuePair("employee", "John Doe"));
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form, Consts.UTF_8);
-
-            HttpPost httpPost = new HttpPost("http://localhost:8088/api/authenticate");
-            httpPost.setEntity(entity);
-            System.out.println("Executing request " + httpPost.getRequestLine());
-
-            // Create a custom response handler
-            ResponseHandler<String> responseHandler = response -> {
-                int status = response.getStatusLine().getStatusCode();
-                if (status >= 200 && status < 300) {
-                    HttpEntity responseEntity = response.getEntity();
-                    return responseEntity != null ? EntityUtils.toString(responseEntity) : null;
-                } else {
-                    throw new ClientProtocolException("Unexpected response status: " + status);
-                }
-            };
-            String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println("----------------------------------------");
-            System.out.println(responseBody);
+        BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+        //Throw runtime exception if status code isn't 200
+        if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() > 299) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatusLine().getStatusCode());
+        }
+        //Create the StringBuffer object and store the response into it.
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = br.readLine()) != null) {
+            System.out.println("Response : \n"+result.append(line));
+        }
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-         */
-
     }
 
 }
