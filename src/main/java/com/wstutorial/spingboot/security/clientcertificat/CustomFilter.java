@@ -22,14 +22,22 @@ public class CustomFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("wwwwww authentication is null " + (authentication==null));
+        System.out.println("authentication is null " + (authentication==null));
         if(authentication != null) {
+        	String accTkn = "token1234";
             Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-            System.out.println("wwww roles " + roles);
-                request.getSession().setAttribute("myVale", "myvalue");
+            System.out.println("roles " + roles);
+            request.getSession().setAttribute("mykey", "val123");
+            String result = "{\"result\": {  \r\n" + 
+            		"\"accessToken\":\"" + accTkn +"\", " + 
+            		" \"roles\":[\"USER_NONE\"]" + 
+            		" }" + 
+            		"}";
+            request.setAttribute("result", result);
+            System.out.println("returning result: " + result);
         }
         chain.doFilter(req, res);
-
+ 
     }
 
     @Override

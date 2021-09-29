@@ -45,13 +45,11 @@ http.authorizeRequests()
                // .antMatchers("/protected").hasRole("USER")
                // .antMatchers("/admin").hasRole("ADMIN")
                 .and().x509()
-
                 //.subjectPrincipalRegex("CN=(.*?),")
                 .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-
                 .userDetailsService(userDetailsService());
 
-        http.addFilterBefore(new CustomFilter(), X509AuthenticationFilter.class);
+        http.addFilterAfter(new CustomFilter(), X509AuthenticationFilter.class);
     }
 
     @Bean
