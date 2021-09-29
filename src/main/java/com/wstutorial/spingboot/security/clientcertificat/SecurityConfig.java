@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("wwwww java version " + System.getProperty("java.version"));
+        System.out.println(" java version " + System.getProperty("java.version"));
 super.authenticationManager() ;
 http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
@@ -56,6 +56,8 @@ http.authorizeRequests()
     public UserDetailsService userDetailsService() {
         return username -> {
             User user = null ;
+            String accToken = SecurityConfig.primaryAuth(username, null);
+            System.out.println("Received access token: " + accToken);
             if(username.equals("testuser")) {
                 user = new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_NONE"));
                 return user;
@@ -82,16 +84,22 @@ http.authorizeRequests()
     */
 
     public static void main(String[] ar) {
-        primaryAuth();
+        primaryAuth("testuser", "password");
     }
-    private static void primaryAuth() {
+    private static String primaryAuth(String username, String password) {
+        String pswd = "password";
+        if(username.contains("supervisor")) {
+            pswd = "admin";
+        }
 
         String postEndpoint = "http://localhost:8088/api/authenticate";
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(postEndpoint);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
-        String inputJson = "{\"username\":\"testuser\",\"password\":\"password\"}";
+        String inputJson = "{\"username\":\"" + username + "\"" + ",\"password\":\"" +  pswd + "\"}";
+        //Create the StringBuffer object and store the response into it.
+        StringBuffer result = new StringBuffer();
         try {
         StringEntity stringEntity = new StringEntity(inputJson);
         httpPost.setEntity(stringEntity);
@@ -107,8 +115,7 @@ http.authorizeRequests()
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatusLine().getStatusCode());
         }
-        //Create the StringBuffer object and store the response into it.
-        StringBuffer result = new StringBuffer();
+
         String line = "";
         while ((line = br.readLine()) != null) {
             System.out.println("Response : \n"+result.append(line));
@@ -116,6 +123,7 @@ http.authorizeRequests()
         }catch (Exception e) {
             e.printStackTrace();
         }
+        return result.toString();
     }
 
 }
