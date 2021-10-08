@@ -56,10 +56,9 @@ http.authorizeRequests()
     public UserDetailsService userDetailsService() {
         return username -> {
             User user = null ;
-            String accToken = SecurityConfig.primaryAuth(username, null);
-            System.out.println("Received access token: " + accToken);
-            if(username.equals("testuser")) {
+            if(username != null) {
                 user = new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_NONE"));
+                
                 return user;
             }else {
                 throw new UsernameNotFoundException("User:" + username + " not found");
@@ -83,48 +82,7 @@ http.authorizeRequests()
     }
     */
 
-    public static void main(String[] ar) {
-        primaryAuth("testuser", "password");
-    }
-    private static String primaryAuth(String username, String password) {
-        String pswd = "password";
-        if(username.contains("supervisor")) {
-            pswd = "admin";
-        }
-
-        String postEndpoint = "http://localhost:8088/api/authenticate";
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(postEndpoint);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-type", "application/json");
-        String inputJson = "{\"username\":\"" + username + "\"" + ",\"password\":\"" +  pswd + "\"}";
-        //Create the StringBuffer object and store the response into it.
-        StringBuffer result = new StringBuffer();
-        try {
-        StringEntity stringEntity = new StringEntity(inputJson);
-        httpPost.setEntity(stringEntity);
-
-        System.out.println("Executing request " + httpPost.getRequestLine());
-
-        HttpResponse response = httpclient.execute(httpPost);
-        System.out.println("wwwdw done");
-
-        BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
-        //Throw runtime exception if status code isn't 200
-        if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() > 299) {
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + response.getStatusLine().getStatusCode());
-        }
-
-        String line = "";
-        while ((line = br.readLine()) != null) {
-            System.out.println("Response : \n"+result.append(line));
-        }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
+ 
 
 }
 
