@@ -16,9 +16,11 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +46,15 @@ public class CustomFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authentication is null " + (authentication==null));
-        if(authentication != null) {
+        //if(authentication != null) {
+
+        String n = authentication.getName();
+        TokenHelper th = new TokenHelper();
+        String jwtToken = th.generateToken(n);
+        System.out.println("jwt token = " + jwtToken );
+        request.setAttribute("token", "{\"result\": {\"accesstoken\":\"token123\",\"jwt\":\"" + jwtToken + "\"}}");
+        request.setAttribute("jwt", jwtToken);
+        if(authentication == null) {
         	String accTkn = "token1234";
         	String name = authentication.getName();
         	String s = primaryAuth(name, null);
@@ -74,8 +84,15 @@ public class CustomFilter implements Filter {
             request.setAttribute("result", result);
             System.out.println("returning result: " + result);
         }
-        chain.doFilter(req, res);
- 
+        HttpServletResponse response = ((HttpServletResponse) res) ;
+        System.out.println("res code =" + response.getStatus() );
+        if(response.getStatus() == 401  || response.getStatus() == 403) {
+            response.setStatus(200);
+            System.out.println("qqqq res code =" + response.getStatus() );
+        }
+
+            chain.doFilter(req, res);
+ System.out.println("res code =" + response.getStatus() );
     }
 
     private static String secondaryAuth(String username, String password) throws ClientProtocolException, IOException, Exception {
@@ -109,7 +126,6 @@ public class CustomFilter implements Filter {
             String resp = "";
 			
 			resp = httpclient.execute(httpPost, responseHandler);
-			
 			httpPost.setURI(new URI("https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa/session/json"));
 			httpPost.setHeader("Accept", "application/json");
 	        httpPost.setHeader("Content-type", "application/json");
@@ -152,8 +168,6 @@ public class CustomFilter implements Filter {
         System.out.println("Executing request " + httpPost.getRequestLine());
 
         HttpResponse response = httpclient.execute(httpPost);
-        System.out.println("wwwdw done");
-
         BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
         //Throw runtime exception if status code isn't 200
         if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() > 299) {

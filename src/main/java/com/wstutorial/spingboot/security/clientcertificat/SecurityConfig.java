@@ -40,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         System.out.println(" java version " + System.getProperty("java.version"));
 super.authenticationManager() ;
-http.authorizeRequests()
+//http.cors().and()
+        http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
                // .antMatchers("/protected").hasRole("USER")
                // .antMatchers("/admin").hasRole("ADMIN")
