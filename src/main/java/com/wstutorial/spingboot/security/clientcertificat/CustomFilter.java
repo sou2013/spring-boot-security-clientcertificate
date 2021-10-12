@@ -45,18 +45,19 @@ public class CustomFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authentication is null " + (authentication==null));
+        System.out.println("Authentication object created " + (authentication != null));
         //if(authentication != null) {
 
         String n = authentication.getName();
         TokenHelper th = new TokenHelper();
         String jwtToken = th.generateToken(n);
-        System.out.println("jwt token = " + jwtToken );
+
         request.setAttribute("token", "{\"result\": {\"accesstoken\":\"token123\",\"jwt\":\"" + jwtToken + "\"}}");
         request.setAttribute("jwt", jwtToken);
         if(authentication == null) {
         	String accTkn = "token1234";
         	String name = authentication.getName();
+            System.out.println("username from authentication object " + name);
         	String s = primaryAuth(name, null);
         	if(s != null && s.length() > 1) {
         		accTkn = s;

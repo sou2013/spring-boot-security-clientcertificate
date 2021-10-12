@@ -25,7 +25,6 @@ public class MYRestController {
         HttpServletRequest req = (HttpServletRequest) request;
         String a = req.getHeader("Authorization");
         a = a.substring(7);
-        System.out.println(a);
 /*
         HttpHeaders authenticationHeaders = getHeaders();
         HttpEntity<String> authenticationEntity = new HttpEntity<String>(authenticationBody,
@@ -43,11 +42,7 @@ public class MYRestController {
         if (helloResponse.getStatusCode().equals(HttpStatus.OK)) {
             resp = helloResponse.getBody();
         }
-
         System.out.println("response " + resp);
-        TokenHelper h = new TokenHelper();
-        h.getAllClaimsFromToken(a);
-
         return resp;
     }
 

@@ -28,7 +28,6 @@ public class TokenHelper {
     static final String AUDIENCE_WEB = "web";
     static final String AUDIENCE_MOBILE = "mobile";
     static final String AUDIENCE_TABLET = "tablet";
-
     private static final String privateKey =
             "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDK7c0HtOvefMRM" +
                     "s1tkdiJm+A16Df85lQlmXjQvMHNgY4P/znvl4kRON9DdBdo3K81OG7pR/0H9XvdB" +
@@ -64,6 +63,49 @@ public class TokenHelper {
             "VCeJM5j/grDh+0YdyTMGdDHOBgM53VqSsDVyo1TNtP2yhPRYCIiI85hEHVaUnVM9" +
             "jGwCjNZLJHWh10Mrmh6B3z8BEmLhMAZXeL4fQBjBd42DLvIIJwM1USKFhjK+XghN" +
             "rQIDAQAB";
+
+    private static final String privateKey2 =
+            "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0DB/uXu0kf3Rc" +
+                    "p/Wa1lhapOt2wgtcGY86wBc541ChHKvNdPpusj757UZvo6ebExEX09T55ob1M3BS" +
+                    "Dzh+G6OVtDFUde2Ws8i8XSp6uDyuyL6gSuq5EpA9GHtu0lWImWt+n0PwT+iYFk6E" +
+                    "43pR98X0Cc/0YyQOLHbKNtxNwatLCx1qwB/HSM7WSxCA5hoWgi4zfdCze9I0h5Uf" +
+                    "XHbv0qnyrDnjdF8TLUlo6pFowffq4yPf2s3yh9sEsIp024JSMbXAxnx5bfup2xJK" +
+                    "9i3mixWu3L1sRbyL9NI1V2JhoLICumUdQ9U7iPHqhj6xVD88mlA/U209bUaWqXHz" +
+                    "m1xaQyXXAgMBAAECggEAZf1ISTs0kiwwuhvaoK8ytYYea9NXpABGhj0x6vS9Q8Z9" +
+                    "+5B8HCCUU/b4o1zNIKcYU6sHRdg0MsnEondExQrbC35bQ0DaKTgGSc1str+OgGPu" +
+                    "t9Y4SEYftrwbj5dOJGbj4YJOdd6OHzjjmZtSOwRj+e1lA0b1saG2WK3i9ZjzczoR" +
+                    "CkURHeCcZvGc9mZhh/WgR0rryxmh9Jn299ohjQ654y6vlvzDrs1i+ohVtbq4+cWX" +
+                    "Uvq+eRQC9e9cS4/Is4RoDwUznuloohyCDISZte2V160vcbaD86DvYq8NgWcQpLNz" +
+                    "OqLMNFQxq3rh/fncXDzuGjJxW8c0xuzr7Ak0a2MXAQKBgQDiUC3awwTWZV587PfJ" +
+                    "rHBSxYBOYyrNaVNAr3kdO28y9qZnqfWPcCOmAwXnMCHXdkxIIHNhCfez6uOoF/iq" +
+                    "xfHn7S0gyFq4BCwqE69PE0659zZnx+mi0egqJqOD8NFZwdRR5Nu/3oWTw3vM/dqq" +
+                    "T571NPSLj5JcH9QhcMsCYtHioQKBgQDLqksGvbIYOFZGrPskC1rQK1rNRWI5L77w" +
+                    "RRJCg0LJMmm1Y3l/JufdNomcalPXKdIur8ADRBEv1Mx0gZlNovFOF7GAvDY3ILJT" +
+                    "iQPpGKPaJnVTP/iKhwOrz7aZLQ/D23l6+V1qry5NFKqjLfIMmErcqP+AdeKGZ7S4" +
+                    "FFXS1QytdwKBgEOMXPNjrAj1/qrY6+iVAH2kF3TOIpNm8YNoHIU+HSWf+vEMCJBE" +
+                    "j09YraVgd2lhFMmebfGz0OwxmrusU/tc06Q+5W5YfsNX83qnn3bBs4jMIb/+Klz/" +
+                    "vAUAvWN/OG1K7j13SqPNHh+JhGUeC+szkqVrpeYV90Bp+53zlZRjvHOhAoGAXR4D" +
+                    "J5Xbs48ugynbuWMnpj3sSiYK/rKBzkEGVDrHck4GXtSYXDZhlJa23DkRFDMe0hGw" +
+                    "7M1WPlRBFpOakBCL23Shx4ZGE3ZzkhX3H8AQSlGDGwkIje2lFAzoI6iiqJ3UMRGK" +
+                    "UJi/xqZITktXe8K1l6X9C7LaWzFXQ0Ko6rhWD4kCgYEA1mdn27O2OBRDaUZQoXCM" +
+                    "6jvFMB03lYTiYLBph2gsIc/v6HQgZE3xQQZroXkXXYhc4wckM/s1qul2TIYaaVLo" +
+                    "XBlJXchd5Envy/nckemdxUn0b1bmJtPaIzAEBRsZRaltjQci38aBtns4M51JIv8t" +
+                    "md17Yn6pn96hLJ94LXTsD2I=";
+    private static final String publicKey2 =
+            "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAoR4t+2eN5VUBLMWibuEu" +
+            "dwleJA189G76fgVcKjjjd55RmyI+EkjyxGJ2RjUK4/bdN/QpeZga6RGyPT5MSiJl" +
+            "63Hao0ow9Xsaz3TuEuPZHmz8uEmOAlwXetdzA/XUgaU/KNn5sol/YLvmMnuZJUO9" +
+            "T6AI7cR4Uli7m8qdqidleePmOAnzcc131YZeDYs2vLR0lpLfM4m8cbUGVn944hUG" +
+            "qGY4LzgcVr+Kc/AFfGoZ34hwVCSuRxB+WL8W5ok8wM1PsCOch/j9cQn/P1yTjJ5Q" +
+            "TCOczL9mYLOFlqONfqL0V5njwTWFQYuwsTBBaeqnrnpyjmwDSn0TeUd4bdHkhg7H" +
+            "tkcO/ALPKoU1kgGeLlg1TGrU6w935c7yUaEm8jDWJ1bmgD8LjifW8/d2wBikIZNs" +
+            "MnjhRYFKl2z1Vwf6Xqtk0wLksbzZBM4038YTKN2tT+ySZSe4QAKIiJ4i8MP00YCi" +
+            "jQitJj3M/wGAuhQ6ysmvqHuuNfdig2Olf4Sw5IBC2irIELnN8PDkUbEdDx4d3poK" +
+            "2b2qZ6RUhD1ZejmlAqaSc2NeQqnqZEutYcU7VzGQTTnTLKdqqDDI8e7h/Lr2xR6X" +
+            "xiuXJgQQnUg8oKzyqSZjGL73+2dRLADdGVcdhmoCT5k0gEr1Rs++8B4biEDeRHy3" +
+            "tbC6/BX4TJKQjWUzjbS4l3kCAwEAAQ==";
+
+
     //@Autowired
     //TimeProvider timeProvider;
 
@@ -167,7 +209,7 @@ public class TokenHelper {
     }
 
     public Claims getAllClaimsFromToken(String token) {
-        System.out.println("validating AccessToken signature with PublicKey " + publicKey + "\n");
+        System.out.println("validating token signature with PublicKey: " + publicKey + "\n");
         Claims claims;
         try {
             claims = Jwts.parser()
@@ -176,10 +218,11 @@ public class TokenHelper {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
+            e.printStackTrace();
             claims = null;
         }
 
-        System.out.println(" AccessToken contains these claims: " + claims.entrySet().toString() + "\n");
+        System.out.println("Token contains these claims: " + claims.entrySet().toString() + "\n");
         return claims;
     }
 
@@ -227,7 +270,9 @@ public class TokenHelper {
     }
 
     public static void main(String[] ar) {
-        System.out.println(publicKey + "\n");
+        System.out.println("public key=" + publicKey + "\n");
+        System.out.println("private key=" + privateKey + "\n");
+
         TokenHelper h = new TokenHelper();
         String s = h.generateToken("testoperator");
         h.getAllClaimsFromToken(s);
