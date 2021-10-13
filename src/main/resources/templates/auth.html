@@ -12,16 +12,42 @@
 <br><br>
 <span id="token" th:text="${token}"></span>
 <br>
-<button onclick="loadJson()">Try it</button>
-<script>
+<button onclick="directCall()">Direct Call</button> &nbsp &nbsp &nbsp
+<button onclick="proxiedCall()">Proxied Call</button>
 
-function loadJson() {
+<script>
+function directCall() {
+	var jwt =document.getElementById("jwt").value;
+console.log("jwt = " + jwt);
+    $.ajax({
+        //this is a 'cross-origin' domain
+        //url : "https://localhost:8443/api/test-a",
+        url : "http://localhost:8080/api/time",
+       // dataType : 'json',
+        //data : { "handler" : "statistic"
+        //},
+        headers: {
+            "x-key": "123",
+            "Authorization": "bearer " + jwt,
+            "Access-Control-Allow-Origin": "*"
+       //     "Access-Control-Request-Headers": "x-requested-with"
+          },
+        success : function(data) {
+            alert(data);
+        },
+        error : function(jqXHR, textStatus, errorThrown) {
+            alert("error");
+        }
+    });
+}
+
+function proxiedCall() {
     //var jwt =document.getElementById("jwt").innerText;
-var jwt =document.getElementById("jwt").value;
+	var jwt =document.getElementById("jwt").value;
 
     $.ajax({
         //this is a 'cross-origin' domain
-        url : "https://localhost:8443/api/test-a",
+        url : "https://localhost:8443/api/proxy/time",
          //       url : "http://192.168.254.35:8080/api/add",
        // dataType : 'json',
         //data : { "handler" : "statistic"

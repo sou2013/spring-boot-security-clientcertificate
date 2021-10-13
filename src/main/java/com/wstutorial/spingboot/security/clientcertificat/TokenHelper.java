@@ -163,11 +163,11 @@ public class TokenHelper {
         return refreshedToken;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username,  Map<String, String> claims) {
         String audience = "web"; //generateAudience(device);
         Date expiration = new Date(new Date().getTime() + 60* 60 * 1000);
-        Map<String, String> claims = new HashMap<>();
-        claims.put("roles", "operator");
+   //     Map<String, String> claims = new HashMap<>();
+   //     claims.put("roles", "operator");
         String s =  Jwts.builder()
                 .setClaims(claims)
                 .setIssuer( "RBAC-Service" )
@@ -178,7 +178,7 @@ public class TokenHelper {
                 //.signWith( SIGNATURE_ALGORITHM, SECRET )
                 .signWith(getPrivateKey())
                 .compact();
-        System.out.println("Using private key and generated AccessToken: " + s  + "\n");
+        // System.out.println("Using private key and generated AccessToken: " + s  + "\n");
         return s;
     }
 
@@ -274,7 +274,7 @@ public class TokenHelper {
         System.out.println("private key=" + privateKey + "\n");
 
         TokenHelper h = new TokenHelper();
-        String s = h.generateToken("testoperator");
+        String s = h.generateToken("testoperator" , null);
         h.getAllClaimsFromToken(s);
     }
 }

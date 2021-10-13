@@ -20,7 +20,7 @@ public class MYRestController {
     @Autowired
     RestTemplate restTemplate;
 
-    @RequestMapping(value = "/api/test-a", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/proxy/time", method = RequestMethod.GET)
     public String getResponse(ServletRequest request, ServletResponse response, Model model)  {
         HttpServletRequest req = (HttpServletRequest) request;
         String a = req.getHeader("Authorization");
@@ -30,7 +30,8 @@ public class MYRestController {
         HttpEntity<String> authenticationEntity = new HttpEntity<String>(authenticationBody,
                 authenticationHeaders);
 */
-        String url = "http://192.168.254.35:8080/api/add";
+       // String url = "http://192.168.254.35:8080/api/add";
+        String url = "http://localhost:8080/api/time";
         String token = "Bearer " + a;
         HttpHeaders headers = getHeaders();
         headers.set("Authorization", token);

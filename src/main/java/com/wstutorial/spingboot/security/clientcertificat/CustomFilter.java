@@ -29,7 +29,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class CustomFilter implements Filter {
@@ -46,17 +48,15 @@ public class CustomFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Authentication object created " + (authentication != null));
-        //if(authentication != null) {
-
-        String n = authentication.getName();
-        TokenHelper th = new TokenHelper();
-        String jwtToken = th.generateToken(n);
-
-        request.setAttribute("token", "{\"result\": {\"accesstoken\":\"token123\",\"jwt\":\"" + jwtToken + "\"}}");
-        request.setAttribute("jwt", jwtToken);
-        if(authentication == null) {
-        	String accTkn = "token1234";
-        	String name = authentication.getName();
+        
+        if(authentication != null) {
+        	TokenHelper th = new TokenHelper();
+	        String name = authentication.getName();
+    
+        	String accTkn = "";
+        	String role = "";
+        	String jwtToken = "";
+        	
             System.out.println("username from authentication object " + name);
         	String s = primaryAuth(name, null);
         	if(s != null && s.length() > 1) {
@@ -64,36 +64,27 @@ public class CustomFilter implements Filter {
         	}
             Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
             System.out.println("roles " + roles);
-            request.getSession().setAttribute("mykey", "val123");
-            String result = "{\"result\":\r\n" + 
-            		 accTkn +"\", " + 
-            		" \"roles\":[\"NONE\"]" + 
-            		" }" + 
-            		"}";
+            String result = "{\"result\":\r\n" +  accTkn +", \"roles\":[\"NONE\"]}}";
            
             try {
-				String role = secondaryAuth(name, null);
-				result = "{\"result\": \r\n" + 
-	            		 accTkn +"\", " + 
-	            		" \"roles\":[\"" + role +  "\"]" + 
-	            		" }" + 
-	            		"}";
+				role = secondaryAuth(name, null); // "p093operator"; //
+				Map<String, String> claims = new HashMap<>();
+	            claims.put("roles", role);
+	            jwtToken = th.generateToken(name, claims);
+	            
+				//result = "{\"result\": \r\n" +  accTkn +"\", " + " \"roles\":[\"" + role +  "\"]" + " }" + "}";
+				result = "{\"result\":{\"accessToken\":\"" + accTkn + "\",\"jwt\":\"" + jwtToken + "\"}}";
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            request.setAttribute("result", result);
+           // request.setAttribute("result", result);
+	        request.setAttribute("token", result);
+	        request.setAttribute("jwt", jwtToken);
             System.out.println("returning result: " + result);
         }
-        HttpServletResponse response = ((HttpServletResponse) res) ;
-        System.out.println("res code =" + response.getStatus() );
-        if(response.getStatus() == 401  || response.getStatus() == 403) {
-            response.setStatus(200);
-            System.out.println("qqqq res code =" + response.getStatus() );
-        }
-
-            chain.doFilter(req, res);
- System.out.println("res code =" + response.getStatus() );
+        chain.doFilter(req, res);
+        //System.out.println("res code =" + response.getStatus() );
     }
 
     private static String secondaryAuth(String username, String password) throws ClientProtocolException, IOException, Exception {
@@ -101,7 +92,8 @@ public class CustomFilter implements Filter {
         if(username.contains("user")) {
         	username = "testoperator";
         }
-        String postEndpoint = "https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa/session/login_password";
+        String  url1 = "https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa/session/login_password";
+        String postEndpoint = url1;
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
             List<NameValuePair> form = new ArrayList<>();
@@ -111,7 +103,7 @@ public class CustomFilter implements Filter {
 
             HttpPost httpPost = new HttpPost(postEndpoint);
             httpPost.setEntity(entity);
-            System.out.println("Executing request " + httpPost.getRequestLine());
+            System.out.println("Authenticating against 2nd: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = response -> {
@@ -127,7 +119,9 @@ public class CustomFilter implements Filter {
             String resp = "";
 			
 			resp = httpclient.execute(httpPost, responseHandler);
-			httpPost.setURI(new URI("https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa/session/json"));
+			String url2= "https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa/session/json";
+			System.out.println("pulling roles from " + url2);
+			httpPost.setURI(new URI(url2));
 			httpPost.setHeader("Accept", "application/json");
 	        httpPost.setHeader("Content-type", "application/json");
 	        httpPost.setHeader("Referer", "https://infr-ipa0.168.r2lab.rb.c2fse.northgrum.com/ipa");
@@ -166,7 +160,7 @@ public class CustomFilter implements Filter {
         StringEntity stringEntity = new StringEntity(inputJson);
         httpPost.setEntity(stringEntity);
 
-        System.out.println("Executing request " + httpPost.getRequestLine());
+        System.out.println("hitting primary IAM: " + httpPost.getRequestLine());
 
         HttpResponse response = httpclient.execute(httpPost);
         BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
