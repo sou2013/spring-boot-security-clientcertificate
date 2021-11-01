@@ -22,7 +22,9 @@ console.log("jwt = " + jwt);
     $.ajax({
         //this is a 'cross-origin' domain
         //url : "https://localhost:8443/api/test-a",
-        url : "http://localhost:8080/api/time",
+
+        // proxy
+        url : "http://192.168.254.97:8050/api/time",
        // dataType : 'json',
         //data : { "handler" : "statistic"
         //},

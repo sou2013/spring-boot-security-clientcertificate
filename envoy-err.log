@@ -1,0 +1,10 @@
+[2021-10-31 11:05:17.157][14938][debug][jwt] [external/envoy/source/extensions/filters/http/jwt_authn/authenticator.cc:128] rbac: JWT authentication starts (allow_failed=false), tokens size=1
+[2021-10-31 11:05:17.157][14938][debug][jwt] [external/envoy/source/extensions/filters/http/jwt_authn/authenticator.cc:139] rbac: startVerify: tokens size 1
+[2021-10-31 11:05:17.157][14938][debug][jwt] [external/envoy/source/extensions/filters/http/jwt_authn/authenticator.cc:144] rbac: Parse Jwt bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImlkMTIzNCJ9.eyJyb2xlcyI6InAwOTNvcGVyYXRvciIsInR5cCI6Imp3dCIsImlzcyI6IlJCQUMtU2VydmljZSIsInN1YiI6IkJvYiIsImF1ZCI6IndlYiIsImlhdCI6MTYzNTcwMzUxNywiZXhwIjoxNjM1NzA3MTE3fQ.Pik2e3B_kLYwquTXnw10IfUXdGEZip9aHNWYDMdKVo5A7OWbyxfZeAWVsZ75r4TvtvBIBFbEbFlkvAqIwjDkRf_d4ClHduSCX5Rw8x6JjG2n4wF7HZw9POEXbtkwtB1VtCsxwSvbvH1p-oy8t00NfAATsPeiQZ1NlRJhWKT6zFH-6nq_0DH1uemOjoiEUlA3LwRccpATbr2Qui8EKcGCMxGu72EVo9Ui3toWTHAb_e1Ub2K3NyFU7DnymiMHwz98Fj4ORGU0DY1-T8ba5yO2y6ZhccNbKTUHdEl2rbFP183gu-GznLkro5sbncJTMyY9kgRlDKzilOZwjeaSqyeZ4A
+[2021-10-31 11:05:17.157][14938][debug][jwt] [external/envoy/source/extensions/filters/http/jwt_authn/authenticator.cc:274] rbac: JWT token verification completed with: Jwt header is an invalid JSON
+[2021-10-31 11:05:17.157][14938][debug][jwt] [external/envoy/source/extensions/filters/http/jwt_authn/filter.cc:109] Jwt authentication completed with: Jwt header is an invalid JSON
+[2021-10-31 11:05:17.157][14938][debug][http] [external/envoy/source/common/http/filter_manager.cc:883] [C0][S16569396661523179688] Sending local reply with details jwt_authn_access_denied{Jwt_header_is_an_invalid_JSON}
+[2021-10-31 11:05:17.157][14938][trace][misc] [external/envoy/source/common/event/scaled_range_timer_manager_impl.cc:60] enableTimer called on 0x5e383f33a000 for 300000ms, min is 300000ms
+
+
+

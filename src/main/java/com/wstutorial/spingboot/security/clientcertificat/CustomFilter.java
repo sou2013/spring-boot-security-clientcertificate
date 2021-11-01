@@ -67,9 +67,10 @@ public class CustomFilter implements Filter {
             String result = "{\"result\":\r\n" +  accTkn +", \"roles\":[\"NONE\"]}}";
            
             try {
-				role = secondaryAuth(name, null); // "p093operator"; //
+				role =  "p093operator"; // (name, null); // //
 				Map<String, String> claims = new HashMap<>();
 	            claims.put("roles", role);
+                claims.put("typ", "jwt");
 	            jwtToken = th.generateToken(name, claims);
 	            
 				//result = "{\"result\": \r\n" +  accTkn +"\", " + " \"roles\":[\"" + role +  "\"]" + " }" + "}";

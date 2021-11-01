@@ -23,10 +23,6 @@ r = requests.get(url, verify=certServer,  cert=(clientCrt, clientKey))
 print(r.status_code)
 respData = r.text
 
-#respData = respData.replace("&", "&amp;")
-#respData = html.escape(respData)
-print(respData)
-
 ind1 = respData.find("{&quot;result&quot")
 print("ind " + str(ind1))
 ind2 = respData.find("}}")
@@ -34,11 +30,19 @@ print("ind2 " + str(ind2))
 
 respData = respData[ind1:ind2]
 respData = respData + "}}"
-# print(respData)
 
 respData = html.unescape(respData)
-print(respData)
-print("\r\n")
+# print(respData)
+print("\r\n result=")
 j = json.loads(respData)
 
-print(j["result"]["jwt"])
+jwt = j["result"]["jwt"]
+print("jwt=")
+print(jwt)
+url = "http://192.168.254.97:8050/api/time"
+#url = "http://localhost:8080/api/time"
+r = requests.get(url, headers={'Authorization': 'bearer ' + jwt })
+respData = r.text
+
+print("resp from " + url)
+print(respData)

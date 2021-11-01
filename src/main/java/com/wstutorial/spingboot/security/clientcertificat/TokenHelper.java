@@ -29,40 +29,40 @@ public class TokenHelper {
     static final String AUDIENCE_MOBILE = "mobile";
     static final String AUDIENCE_TABLET = "tablet";
     private static final String privateKey =
-            "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDK7c0HtOvefMRM" +
-                    "s1tkdiJm+A16Df85lQlmXjQvMHNgY4P/znvl4kRON9DdBdo3K81OG7pR/0H9XvdB" +
-                    "TEojj/6vCVuMDeeIiBrgx0OJjhv0r8oUD4d52+1kXXITaniyZcbJ08s4sF7fUSCu" +
-                    "IZOhvvwQTd/tIwXGU1qqfg+bsomQ6h2czPSKXAux54vUiRO2IWf/Y6twyk8cy1PH" +
-                    "IOfelCVUJ4kzmP+CsOH7Rh3JMwZ0Mc4GAzndWpKwNXKjVM20/bKE9FgIiIjzmEQd" +
-                    "VpSdUz2MbAKM1kskdaHXQyuaHoHfPwESYuEwBld4vh9AGMF3jYMu8ggnAzVRIoWG" +
-                    "Mr5eCE2tAgMBAAECggEBAKBPXiKRdahMzlJ9elyRyrmnihX7Cr41k7hwAS+qSetC" +
-                    "kpu6RjykFCvqgjCpF+tvyf/DfdybF0mPBStrlkIj1iH29YBd16QPSZR7NkprnoAd" +
-                    "gzl3zyGgcRhRjfXyrajZKEJ281s0Ua5/i56kXdlwY/aJXrYabcxwOvbnIXNxhqWY" +
-                    "NSejZn75fcacSyvaueRO6NqxmCTBG2IO4FDc/xGzsyFKIOVYS+B4o/ktUOlU3Kbf" +
-                    "vwtz7U5GAh9mpFF+Dkr77Kv3i2aQUonja6is7X3JlA93dPu4JDWK8jrhgdZqY9p9" +
-                    "Q8odbKYUaBV8Z8CnNgz2zaNQinshzwOeGfFlsd6H7SECgYEA7ScsDCL7omoXj4lV" +
-                    "Mt9RkWp6wQ8WDu5M+OCDrcM1/lfyta2wf7+9hv7iDb+FwQnWO3W7eFngYUTwSw5x" +
-                    "YP2uvOL5qbe7YntKI4Q9gHgUd4XdRJJSIdcoY9/d1pavkYwOGk7KsUrmSeoJJ2Jg" +
-                    "54ypVzZlVRkcHjuwiiXKvHwj2+UCgYEA2w5YvWSujExREmue0BOXtypOPgxuolZY" +
-                    "pS5LnuAr4rvrZakE8I4sdYjh0yLZ6qXJHzVlxW3DhTqhcrhTLhd54YDogy2IT2ff" +
-                    "0GzAV0kX+nz+mRhw0/u+Yw6h0QuzH9Q04Wg3T/u/K9+rG335j/RU1Tnh7nxetfGb" +
-                    "EwJ1oOqcXikCgYEAqBAWmxM/mL3urH36ru6r842uKJr0WuhuDAGvz7iDzxesnSvV" +
-                    "5PKQ8dY3hN6xfzflZoXssUGgTc55K/e0SbP93UZNAAWA+i29QKY6n4x5lKp9QFch" +
-                    "dXHw4baIk8Z97Xt/kw07f6FAyijdC9ggLHf2miOmdEQzNQm/9mcJ4cFn+DECgYEA" +
-                    "gvOepQntNr3gsUxY0jcEOWE3COzRroZD0+tLFZ0ZXx/L5ygVZeD4PwMnTNrGvvmA" +
-                    "tAFt54pomdqk7Tm3sBQkrmQrm0+67w0/xQ9eJE/z37CdWtQ7jt4twHXc0mVWHa70" +
-                    "NdPhTRVIAWhil7rFWANOO3Gw2KrMy6O1erW7sAjQlZECgYBmjXWzgasT7JcHrP72" +
-                    "fqrEx4cg/jQFNlqODNb515tfXSBBoAFiaxWJK3Uh/60/I6cFL/Qoner4trNDWSNo" +
-                    "YENBqXLZnWGfIo0vAIgniJ6OD67+1hEQtbenhSfeE8Hou2BnFOTajUxmYgGm3+hx" +
-                    "h8TPOvfHATdiwIm7Qu76gHhpzQ==" ;
+                    "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChqlR7dQIkD2Sn" +
+                    "Ub2IrK8SFUpFeH0rlEK1oxcPpwJklQWaeSYIop1SRDGTf3JutVZ1smp9QHTchjtP" +
+                    "jfgjrkoUHJ1R7EJuo3z1iAwn2i2ufyd1qsrFyPbK4F6QT90DWFiYnJ8J0liuIqK7" +
+                    "IsCxmU2o4ED2MqdhTESFb2qXgd2EorafFElDsNHym+0J0nVY22wiv/ynCVirkVv3" +
+                    "VSxzIOAJ+dOPwSXsQAryfP3DQK4If+YXTGnZRIRuzDm0qi5KaAqDCq6S10Opqu11" +
+                    "Zx1C6awwxycCFU1AXRAbx6lIKrIfpiOKyLw47DAs3KRhe3SvoHkWEizHc9CEBp68" +
+                    "/AI6DuvfAgMBAAECggEAJb8ldqX9V/oYIFEflffr8Kbz7oCRiUlWwh5QViFCl8WL" +
+                    "x2OeE8oUPY8anDvXti21AEomPxR7tLnKw2p8k6gwN73upaAqarbViGa5n9x7ahDa" +
+                    "X8j/C2s+5GO68KsVCaDpHskDAUIR3qbLpDIbF9yZm2KxCEsPddJe9WDsXG/ADyWn" +
+                    "sDV6W+ISQKPhlWK9/d92S7CCHRg1XBnW19C1JdxG5m4TUC0XDF3oRJEjTAJq0NU4" +
+                    "EtIPo7ymzVwcaCAce5dGQdWTZw2LMCGbK0CkkoZHCUCd9mrTsFcb9okb3jIMwl6y" +
+                    "9Rc7W6zLHIrU/6u689MpQtj7DVZNsuVN+K6S0oK+kQKBgQDVCebkt19iucqzZPll" +
+                    "P8oW7kAV+JStDhj6YqJlDAa8qmnRbxl+GbnRnbSDcZJ/nzi8ph5LU/pzPO6xJT8D" +
+                    "aqX1Dty+e3VajsNPDm1Q2n7Ay4Ga7IMwb37LnIAVQjUGBaD1DSiIitRQJxVlKnPt" +
+                    "rLWKnpKnEN3o4hqBkfcVKp5GXQKBgQDCREknoPSdc4lqvdY6roqN7vT61LHcSzTP" +
+                    "b0xGm2AwpRvfwqBf04MaAUcXbTBkfp/qTZOpYbeBN7SdvHrqtBBZOX50YWEjEAzw" +
+                    "IT+7bJ6OHiz3rFw9nsyYhTetmR3f9QXcr3GvdzeDyQzIqK4DJ3y7CgOW32rKmlf5" +
+                    "Mvk5MkdfawKBgQDUQi5j+XQ3OGgGv3dg8uKWYEFH4sm3dtFaP4YP6aCYv6349pnO" +
+                    "szEZ8ehWAoV1VJ3CED0kzoI96RrlMvgKnmrFtE4qF3YAiTd9gCFYqqoZy2nRgw7e" +
+                    "5mfN1JslEzcjTd5l6ftVuAT760T87ARfbXHfsEjr3flLvGOub1FgLHtQHQKBgDwW" +
+                    "gQYn6+GTrgp9I3lNKYATTGUVStpXzMLoqxAf2RXSzBdfDNn3A1MU2Bdv54r9+5qu" +
+                    "WiEHH4pxX4V2mhJklbXzaaC3yiLdQRM5RYxEYZqVzNTi1DkfGCuI8RraBHqUQDbt" +
+                    "cV2To3E4y6J5QjGpkhQMWeXdvxthuBpVYO8HFTp3AoGBAIrXkWhDC3DZhZ6u4/b0" +
+                    "ylPUxWtrVIcSMY8lTX8FNE8e3of9mcifNI+QS3Xs3+cVAwMk3oSRLPfjNrHH14FN" +
+                    "oM2NOE+9+/h82L2qr4r5uv9pUURskW+ZBPdA+Cn0ySLsPeWqCb6+MbCVhv47LPnP" +
+                    "17njPUeJ5AqrPotmj2QNfazT" ;
 
-    private static final String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyu3NB7Tr3nzETLNbZHYi" +
-            "ZvgNeg3/OZUJZl40LzBzYGOD/8575eJETjfQ3QXaNyvNThu6Uf9B/V73QUxKI4/+" +
-            "rwlbjA3niIga4MdDiY4b9K/KFA+HedvtZF1yE2p4smXGydPLOLBe31EgriGTob78" +
-            "EE3f7SMFxlNaqn4Pm7KJkOodnMz0ilwLseeL1IkTtiFn/2OrcMpPHMtTxyDn3pQl" +
-            "VCeJM5j/grDh+0YdyTMGdDHOBgM53VqSsDVyo1TNtP2yhPRYCIiI85hEHVaUnVM9" +
-            "jGwCjNZLJHWh10Mrmh6B3z8BEmLhMAZXeL4fQBjBd42DLvIIJwM1USKFhjK+XghN" +
-            "rQIDAQAB";
+    private static final String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoapUe3UCJA9kp1G9iKyv" +
+            "EhVKRXh9K5RCtaMXD6cCZJUFmnkmCKKdUkQxk39ybrVWdbJqfUB03IY7T434I65K" +
+            "FBydUexCbqN89YgMJ9otrn8ndarKxcj2yuBekE/dA1hYmJyfCdJYriKiuyLAsZlN" +
+            "qOBA9jKnYUxEhW9ql4HdhKK2nxRJQ7DR8pvtCdJ1WNtsIr/8pwlYq5Fb91UscyDg" +
+            "CfnTj8El7EAK8nz9w0CuCH/mF0xp2USEbsw5tKouSmgKgwquktdDqartdWcdQums" +
+            "MMcnAhVNQF0QG8epSCqyH6Yjisi8OOwwLNykYXt0r6B5FhIsx3PQhAaevPwCOg7r" +
+            "3wIDAQAB";
 
     private static final String privateKey2 =
             "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0DB/uXu0kf3Rc" +
@@ -167,9 +167,17 @@ public class TokenHelper {
         String audience = "web"; //generateAudience(device);
         Date expiration = new Date(new Date().getTime() + 60* 60 * 1000);
    //     Map<String, String> claims = new HashMap<>();
-   //     claims.put("roles", "operator");
+   //     claims.put("roles", "operator")
+        Map<String, Object> header = new HashMap<>();
+        header = Jwts.jwsHeader();
+        header.put("alg", "RS256");
+        header.put("typ", "JWT");
+        header.put("kid", "id1234");
+        //Jwts.header(header);
         String s =  Jwts.builder()
+                .setHeader(header)
                 .setClaims(claims)
+                //.setId("id1234")
                 .setIssuer( "RBAC-Service" )
                 .setSubject(username)
                 .setAudience(audience)
@@ -273,8 +281,11 @@ public class TokenHelper {
         System.out.println("public key=" + publicKey + "\n");
         System.out.println("private key=" + privateKey + "\n");
 
+        String role =  "p093operator"; // (name, null); // //
+        Map<String, String> claims = new HashMap<>();
+        claims.put("roles", role);
         TokenHelper h = new TokenHelper();
-        String s = h.generateToken("testoperator" , null);
+        String s = h.generateToken("testoperator" , claims);
         h.getAllClaimsFromToken(s);
     }
 }
