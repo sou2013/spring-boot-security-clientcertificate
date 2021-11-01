@@ -1,0 +1,89 @@
+admin:
+  access_log_path: /dev/null
+  address:
+    socket_address: { address: 0.0.0.0, port_value: 9901 }
+
+static_resources:
+  listeners:
+    - name: listener_0
+      address:
+        socket_address: { address: 0.0.0.0, port_value: 8050 }
+      filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              stat_prefix: ingress_http
+              codec_type: AUTO
+              route_config:
+                name: local_route
+                virtual_hosts:
+                - name: local_service
+                  domains: ["*"]
+                  routes:
+                  - match: { prefix: "/hello.html" }
+                    route: { cluster: some_service }
+                  - match: { prefix: "/api/time" }
+                    route: { cluster: service2 }
+              http_filters:
+                - name: envoy.filters.http.jwt_authn
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+                    providers:
+                      rbac:
+                        issuer: RBAC-Service
+                        audiences:
+                          - web
+                        from_headers:
+                          - name: authorization
+                        local_jwks:
+                          # inline_string: '{"keys":[{"alg":"RS256","kty":"RSA","use":"sig","n":"v-ArEf2T0bg9M1002MPAf4mfUtG4_34Mc3dtPIZpzL81U-WEGDTtmrqp3iHbnLd3zfynwDTK8pygjLz8xRFsaYr-TYkri4dzUKz5c45P0tmv88I-qGOdRIhxL8It4XDdQV_fsGrskMLl9j9DLpU5Yfg9nm6pyIkqcDQglILubBXNkzk_JJpucoaF7GwRGZ79f9U1B2jsUIWqmXmtGOoQLyZWF3RcBibdFF6jhsHVKtxvZalhugd-wzZkLLlfNff-7f4NEumWCZn4dVh4vGAuzEDhstcCqJtRWHt6P-KQFVX-OAebwqvxdCa-6Oqsd39SrO28iTykmT-zawiCB3kDhw","e":"AQAB","kid":"QzlENUJFMERCMkMzRjBGOTQyMEE2MkREMTdGRjBDMUYzQkQxNEQ3Nw","x5t":"QzlENUJFMERCMkMzRjBGOTQyMEE2MkREMTdGRjBDMUYzQkQxNEQ3Nw","x5c":["MIIDBzCCAe+gAwIBAgIJe8NsUUuwcUTyMA0GCSqGSIb3DQEBCwUAMCExHzAdBgNVBAMTFmRldi1rZWxvbi5ldS5hdXRoMC5jb20wHhcNMjAwMjA3MTQyMDE2WhcNMzMxMDE2MTQyMDE2WjAhMR8wHQYDVQQDExZkZXYta2Vsb24uZXUuYXV0aDAuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv+ArEf2T0bg9M1002MPAf4mfUtG4/34Mc3dtPIZpzL81U+WEGDTtmrqp3iHbnLd3zfynwDTK8pygjLz8xRFsaYr+TYkri4dzUKz5c45P0tmv88I+qGOdRIhxL8It4XDdQV/fsGrskMLl9j9DLpU5Yfg9nm6pyIkqcDQglILubBXNkzk/JJpucoaF7GwRGZ79f9U1B2jsUIWqmXmtGOoQLyZWF3RcBibdFF6jhsHVKtxvZalhugd+wzZkLLlfNff+7f4NEumWCZn4dVh4vGAuzEDhstcCqJtRWHt6P+KQFVX+OAebwqvxdCa+6Oqsd39SrO28iTykmT+zawiCB3kDhwIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTUXNEacZNN51feJ6DPeoesHVGGoDAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEBAKnDhtzPUC4+yf7TXWKPEbnDawmwnzlMhha8964zNgS9Cb9RmmTdxPYJCMwA//NHDGQcPs6W31Noy52QFmEBuwt1hsJGQRF9/sAv0xFKA6++2etEbVFd0l49jiH5X3yXdA8XV95GV3rDUYXxKJYMZTaJccN28zs9uqdkPIqt0/Bx/HvwPZO6kHwT2Vhn+JuN8NBSCYtV5kbJBtx3shQzvs5OBoiHDvlG/UpMyb9yHZBQD6mlCIzYAf6EpI5TmY9GC44vMpIChtIqQDGpij9nY9NCcztuRWYchv7OVy9L1ri+GoV4bBRR1d1ODSxmHOnXDr8zmfcIG5b2KrxMhm2JCk4="]}]}'
+                          filename: /home/stan/software/envoy/rbac-key.pub
+                        #remote_jwks:
+                        #  http_uri:
+                         #   uri: https://authenticate.localhost.pomerium.io/.well-known/pomerium/jwks.json
+                          #  cluster: service2
+                           # timeout: 3s
+                    rules:
+                      - match:
+                          prefix: /api
+                        requires:
+                          provider_name: rbac
+                - name: envoy.filters.http.router
+
+
+  clusters:
+    - name: some_service
+      connect_timeout: 1s
+      type: STATIC
+      lb_policy: round_robin
+      load_assignment:
+        cluster_name: some_service
+        endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 127.0.0.1
+                    port_value: 1111
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 127.0.0.1
+                    port_value: 1112
+
+
+    - name: service2
+      connect_timeout: 3s
+      type: STATIC
+      lb_policy: round_robin
+      load_assignment:
+        cluster_name: service2
+        endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 192.168.254.35
+                    port_value: 8080
+
